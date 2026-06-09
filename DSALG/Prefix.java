@@ -41,12 +41,15 @@ public final class Prefix {
             {
                 res.append(ch);
 
+                if (isOperator(exp.charAt(i-1)))
+                {
+                    res.append(exp.charAt(i-1));
+                    i--;
+                }
+
                 if (i > 0)
                     if (!isOperand(exp.charAt(i - 1)))
                         res.append(' ');
-
-                //if (i-1 == 0)
-                    //res.append(' ');
             }
             else if (ch == ')')
                 st.push(ch);
@@ -94,7 +97,7 @@ public final class Prefix {
 
         for (i = splitExp.length - 1; i >= 0; i--)
         {
-            if (isOperator(splitExp[i].charAt(0)))
+            if (isOperator(splitExp[i].charAt(0)) && splitExp[i].length() == 1)
             {
                 num1 = st.pop();
                 num2 = st.pop();
@@ -120,7 +123,8 @@ public final class Prefix {
                     break;
                 }
             }
-            else if (isOperand(splitExp[i].charAt(0)))
+            else if (isOperand(splitExp[i].charAt(0)) ||
+                    (isOperator(splitExp[i].charAt(0)) && splitExp[i].length() != 1))
                 st.push(Integer.parseInt(splitExp[i]));
         }
 
