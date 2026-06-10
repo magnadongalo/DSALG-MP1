@@ -10,10 +10,10 @@ public class Prefix {
         Collections.fill(initial, "");
 
         // add the parser
-        parseArray(str, initial);
+        Helper.parseArray(str, initial);
 
         // reverse the string array
-        reverseArray(initial);
+        Helper.reverseArray(initial);
 
         // queue needed
         // stack needed
@@ -29,10 +29,13 @@ public class Prefix {
                     // if next is higher, add to stack
                     // if next is lower, keep pushing to queue
 
+
+
         // invert final string array via calling the function
+        Helper.reverseArray(result);
 
         // return final string
-        return "finished";
+        return "result";
     }
 
     public static String convertToInfix(String str)
@@ -42,10 +45,10 @@ public class Prefix {
         Collections.fill(initial, "");
 
         // add the parser
-        parseArray(str, initial);
+        Helper.parseArray(str, initial);
 
         // reverse the string array
-        reverseArray(initial);
+        Helper.reverseArray(initial);
 
         // queue needed?
         // stack needed
@@ -78,29 +81,4 @@ public class Prefix {
     // precedence checking function
 
     // combine final string function
-
-    // parse function
-    public static void parseArray(String str, ArrayList<String> initial)
-    {
-        // use regex to add each element in str up until
-        // it recognized a space, or a symbol into arraylist initial
-    }
-
-    // reverse function
-    public static void reverseArray(ArrayList<String> array)
-    {
-        CustomStack<String> tempStack = new CustomStack<>(100);
-
-        for (String str : array)
-        {
-            tempStack.push(str);
-        }
-
-        array.clear();
-
-        while (!tempStack.isEmpty())
-        {
-            array.add(tempStack.popItem());
-        }
-    }
 }
