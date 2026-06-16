@@ -13,10 +13,19 @@ public static void main(String[] args) {
 //    System.out.println(integers.popItem());
 //    System.out.println(integers.popItem());
 
-    ArrayList<String> list = new ArrayList<>();
-    String str = "(56) + -150";
+//    ArrayList<String> list = new ArrayList<>();
+//    String str = "(1 + 2^3) + 3 * (4 - 5)";
+//
+//    Helper.parseArray(str, list);
+//    Helper.reverseArray(list);
+//
+//    System.out.println(list);
 
-    Helper.parseArray(str, list);
+    String input = "3 + 4 * (2^5 - 1)";
+    String input2 = "(1 + 2^3) + 3 * (4 - -5)";
+    String prefixOutput = Prefix.convertToPrefix(input);
+    String prefixOutput2 = Prefix.convertToPrefix(input2);
 
-    System.out.println(list);
+    System.out.println(prefixOutput);
+    System.out.println(prefixOutput2);
 }

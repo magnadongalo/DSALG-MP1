@@ -1,5 +1,6 @@
-/**
- * This is a custom class.
+/*
+ * This is a custom written helper class.
+ *
  * The static methods in this class help with actions needed across the entire project.
  * - parsing
  * - reversing
@@ -55,7 +56,7 @@ public class Helper {
                 }
                 initial.add(builder.toString());
             }
-            else if (c == '+' || c == '-' || c == '*' || c == '/')
+            else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^')
             {
                 initial.add(String.valueOf(c));
                 i++;
@@ -85,5 +86,55 @@ public class Helper {
             left++;
             right--;
         }
+
+        // this function also reverses the parenthesis
+        // switchParenthesis() should switch the parenthesis back for proper formatting
+        switchParenthesis(array);
+    }
+
+    public static void switchParenthesis(ArrayList<String> array)
+    {
+        int i = 0;
+        while (i < array.size()) {
+            switch (array.get(i))
+            {
+                case "(":
+                    array.set(i, ")");
+                    break;
+                case ")":
+                    array.set(i, "(");
+                    break;
+            }
+            i++;
+        }
+    }
+
+    public static boolean isNumber(String str) {
+        if (str == null || str.isEmpty())
+        {
+            return false;
+        }
+
+        return str.matches("-?\\d+(\\.\\d+)?");
+    }
+
+    public static String stringRebuilder(ArrayList<String> array)
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (String s : array) {
+            stringBuilder.append(s);
+        }
+
+        return stringBuilder.toString().trim();
+    }
+
+    public static boolean isSymbol(String str) {
+        if (str == null || str.isEmpty())
+        {
+            return false;
+        }
+
+        return str.matches("^[()+\\-*/^\\s]+$");
     }
 }

@@ -5,21 +5,21 @@
  * Primitive types (like int, char) cannot be used. Use their respective
  * java.lang equivalents (like Integer, Character).
  *
- * This version contains modified methods that remove their return guard clauses in order to
- * adhere to strict rules concerning good programming practices for C.
+ * Reprogrammed to use ArrayList instead of array
+ *      Object[] queue --> ArrayList<Object> queue = new ArrayList<>();
  *
  * @author Johann Haree Tolentino
  * @date 05/24/2026
+ * @modified 06/16/2026
  * @param <T> The type of elements held in this stack
  */
 
+import java.util.ArrayList;
+
 public class CustomQueue<T> {
 
-    private final Object[] queue;
+    private final ArrayList<T> queue = new ArrayList<>();
     private final int capacity;
-    private int count;
-    private int head;
-    private int tail;
 
     /**
      * This function creates an array to act as the queue data structure.
@@ -28,7 +28,7 @@ public class CustomQueue<T> {
      * @param maxSize specified size of the queue array data type.
      *                It defaults to 10 if it is left null, or set to less than 0
      */
-    public CustomQueue(Integer maxSize) 
+    public CustomQueue(Integer maxSize)
     {
         if (maxSize == null || maxSize <= 0)
         {
@@ -38,20 +38,10 @@ public class CustomQueue<T> {
         {
             this.capacity = maxSize;
         }
-
-        this.queue = new Object[this.capacity];
-        this.count = 0;
-        this.head = 0;
-        this.tail = 0;
     }
 
-    public CustomQueue()
-    {
+    public CustomQueue() {
         this.capacity = 10;
-        this.queue = new Object[this.capacity];
-        this.count = 0;
-        this.head = 0;
-        this.tail = 0;
     }
 
     /**
@@ -63,34 +53,31 @@ public class CustomQueue<T> {
         if (isFull()) {
             System.out.println("Queue is full");
         } else {
-            this.queue[tail] = item;
-            tail = (tail + 1) % capacity;
-            count++;
+            queue.add(item);
         }
     }
 
-    /**
-     * This function removes and returns the item at the front of the queue.
-     * Follows a First-In-First-Out (FIFO) methodology
-     * @return T - The object at the head of the queue
-     */
-    public T deQueueItem()
-    {
+//    /**
+//     * This function removes and returns the item at the front of the queue.
+//     * Follows a First-In-First-Out (FIFO) methodology
+//     * @return T - The object at the head of the queue
+//     */
+//    public T deQueueItem()
+//    {
 //        if (isEmpty())
 //        {
 //            System.out.println("Queue is empty");
 //            return null;
 //        }
-
-        if (!isEmpty()) {
-            T item = head();
-            deQueue();
-            return item;
-        } else {
-            System.out.println("Queue is empty");
-            return null;
-        }
-    }
+//
+//        if (isEmpty())
+//        {
+//            System.out.println("Queue is empty");
+//            return null;
+//        }
+//
+//        queue.removeFirst();
+//    }
 
     /**
      * Advances the head pointer and removes the front element.
@@ -102,9 +89,7 @@ public class CustomQueue<T> {
             System.out.println("Queue is empty");
         }
         else {
-            this.queue[head] = null;
-            head = (head + 1) % capacity;
-            count--;
+            queue.removeFirst();
         }
     }
 
@@ -112,18 +97,15 @@ public class CustomQueue<T> {
      * This function returns the first active element of the CustomQueue
      * @return T - specified object type
      */
-    @SuppressWarnings("unchecked")
     public T head()
     {
-        if (!isEmpty())
-        {
-            return (T)this.queue[head];
-        }
-        else
+        if (isEmpty())
         {
             System.out.println("Queue is empty");
             return null;
         }
+
+        return (T) queue.getFirst();
     }
 
     /**
@@ -131,20 +113,15 @@ public class CustomQueue<T> {
      * Returns null if queue is empty or does not exist
      * @return T - specified object type
      */
-    @SuppressWarnings("unchecked")
     public T tail()
     {
-        if (!isEmpty())
-        {
-            int lastElement = (tail - 1 + capacity) % capacity;
-            return (T) this.queue[lastElement];
-        }
-        else
+        if (isEmpty())
         {
             System.out.println("Queue is empty");
             return null;
         }
 
+        return (T) queue.getLast();
     }
 
     /**
@@ -153,7 +130,7 @@ public class CustomQueue<T> {
      */
     public boolean isEmpty()
     {
-        return count == 0;
+        return queue.isEmpty();
     }
 
     /**
@@ -162,6 +139,6 @@ public class CustomQueue<T> {
      */
     public boolean isFull()
     {
-        return count == capacity;
+        return queue.size() >= capacity;
     }
 }
