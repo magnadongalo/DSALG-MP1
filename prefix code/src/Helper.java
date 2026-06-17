@@ -56,6 +56,30 @@ public class Helper {
                 }
                 initial.add(builder.toString());
             }
+
+            else if(Character.isLetter(c) ||
+                    ((c == '-' || c == '+') && Character.isLetter(str.charAt(i + 1))))
+            {
+                StringBuilder builder = new StringBuilder();
+
+                if (c == '-')
+                {
+                    builder.append('-');
+                    i++;
+                }
+                else if (c == '+')
+                {
+                    i++;
+                }
+
+                while (i < str.length() && Character.isLetter(str.charAt(i)))
+                {
+                    builder.append(str.charAt(i));
+                    i++;
+                }
+                initial.add(builder.toString());
+            }
+
             else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^')
             {
                 initial.add(String.valueOf(c));
@@ -109,27 +133,48 @@ public class Helper {
         }
     }
 
-    public static boolean isNumber(String str) {
+    public static boolean isOperand(String str) {
         if (str == null || str.isEmpty())
         {
             return false;
         }
 
-        return str.matches("-?\\d+(\\.\\d+)?");
+        return str.matches("(-?\\d+(\\.\\d+)?|[a-zA-Z]+)");
     }
 
-    public static String stringRebuilder(ArrayList<String> array)
+    public static String stringRebuilder(ArrayList<String> array, int type)
     {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (String s : array) {
             stringBuilder.append(s);
+
+            if (type >= 1)
+            {
+                stringBuilder.append(" ");
+            }
         }
 
         return stringBuilder.toString().trim();
     }
 
-    public static boolean isSymbol(String str) {
+    public static int checkPrecedence(String str)
+    {
+        return switch (str) {
+            case "(", ")" -> 4;
+            case "^"      -> 3;
+            case "*", "/" -> 2;
+            case "+", "-" -> 1;
+            default       -> -1;
+        };
+    }
+
+    public static String toExpression(String str1, String str2, String symbol)
+    {
+        return str2 + " " + symbol + " " + str1;
+    }
+
+    public static boolean isOperator(String str) {
         if (str == null || str.isEmpty())
         {
             return false;

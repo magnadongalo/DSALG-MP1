@@ -34,12 +34,12 @@ public class Prefix {
         {
             String temp = initial.get(i);
 
-            if (Helper.isNumber(temp))
+            if (Helper.isOperand(temp))
             {
                 result.add(temp);
                 result.add(" ");
             }
-            else if (Helper.isSymbol(temp))
+            else if (Helper.isOperator(temp))
             {
                 if (temp.equals("("))
                 {
@@ -54,9 +54,11 @@ public class Prefix {
                     }
                     tempStack.pop();
                 }
-                else if (checkPrecedence(temp) > 0)
+                else if (Helper.checkPrecedence(temp) > 0)
                 {
-                    while (!tempStack.isEmpty() && !tempStack.top().equals("(") && checkPrecedence(tempStack.top()) > checkPrecedence(temp))
+                    while (!tempStack.isEmpty() &&
+                            !tempStack.top().equals("(") &&
+                            Helper.checkPrecedence(tempStack.top()) > Helper.checkPrecedence(temp))
                     {
                         result.add(tempStack.popItem());
                         result.add(" ");
@@ -66,7 +68,7 @@ public class Prefix {
             }
         }
 
-        while  (!tempStack.isEmpty())
+        while (!tempStack.isEmpty())
         {
             result.add(tempStack.popItem());
             result.add(" ");
@@ -76,7 +78,7 @@ public class Prefix {
         Helper.reverseArray(result);
 
         // return final string
-        return Helper.stringRebuilder(result);
+        return Helper.stringRebuilder(result, 0);
     }
 
     public static String convertToInfix(String str)
@@ -91,86 +93,44 @@ public class Prefix {
         // reverse the string array
         Helper.reverseArray(initial);
 
-        // queue needed?
         // stack needed
         // result string array needed
-        // CustomQueue<String> tempQueue = new CustomQueue<>(100);
         CustomStack<String> tempStack = new CustomStack<>(100);
         ArrayList<String> result = new ArrayList<>();
 
+        // Helper.reverseArray(result);
         // input 1st number into stack
         // input 2nd number into stack
         // Recognize operator
 
-        // Recognize 2 numbers in stack
-            // Right operand is 2nd number
-            // Left operand is 1st number
+        // Recognize 2 expressions in stack
+        // Right operand is 2nd expression
+        // Left operand is 1st expression
         // Compute expression, then insert back into stack as one element
         // only get the last 2 operands when computing for final expression
         // Add parenthesis based to 1st expression (if an expression string) based on next operand
+        int i;
+        for (i = 0; i < initial.size(); i++) {
+            String temp = initial.get(i);
 
+            if (Helper.isOperand(temp))
+            {
+                tempStack.push(temp);
+            }
+            else if (Helper.isOperator(temp))
+            {
+                String right = tempStack.popItem();
+                String left = tempStack.popItem();
+
+                String expression = Helper.toExpression(left, right, temp);
+                tempStack.push(expression);
+
+                // unnecessary parenthesis checking here
+            }
+        }
         // Repeat until end
 
-        // Reverse string again
-
         // Return final string
-        return "finished";
+        return tempStack.popItem();
     }
-
-    // precedence checking function
-    private static int checkPrecedence(String str)
-    {
-        return switch (str) {
-            case "(", ")" -> 4;
-            case "^"      -> 3;
-            case "*", "/" -> 2;
-            case "+", "-" -> 1;
-            default       -> -1;
-        };
-    }
-
-    // combine final string function
 }
-
-//while (i < initial.size())
-//        {
-//String temp = initial.get(i);
-//
-//            if (Helper.isNumber(temp))
-//        {
-//        result.add(temp);
-//            }
-//                    else if (Helper.isSymbol(temp))
-//        {
-//        // check top of stack if a symbol is present
-//        // push depending on precedence
-//        // add to result depending on precedence
-//        // pop all if parenthesis match
-//        if (tempStack.top() != null)
-//        {
-//// 1 = element in stack is higher
-//// 2 = element in stack is lower
-//// 3 = element in stack is an end parenthesis
-//int precedence = 0;
-//                    switch (precedence)
-//        {
-//        case 1:
-//        tempStack.push(temp);
-//                            break;
-//                                    case 2:
-//                                    result.add(tempStack.popItem());
-//        break;
-//        case 3:
-//        break;
-//        }
-//        }
-//        else
-//        {
-//        tempStack.push(temp);
-//                }
-//                        }
-//i++;
-//        }
-//
-//        // invert final string array via calling the function
-//        Helper.reverseArray(result);
