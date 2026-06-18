@@ -127,8 +127,60 @@ public final class Prefix {
                     (isOperator(splitExp[i].charAt(0)) && splitExp[i].length() != 1))
                 st.push(Integer.parseInt(splitExp[i]));
         }
-
-
         return st.stackTop();
+    }
+
+    public static boolean checkParentheses (String exp){
+        int i, sum=0;
+
+        for (i=0; i<exp.length(); i++)
+        {
+            if (exp.charAt(i) == '(')
+                sum++;
+            else if (exp.charAt(i) == ')')
+                sum--;
+        }
+        return sum == 0;
+    }
+    public static boolean checkInfix (String exp){
+        int i;
+        String[] splitExp = exp.split(" ");
+        boolean res = true;
+
+        for (i=0; i<splitExp.length - 1; i++)
+        {
+            if (isOperator(splitExp[i].charAt(0)) && splitExp[i].length() == 1)
+                if (isOperator(splitExp[i+1].charAt(0)) && splitExp[i+1].length() == 1)
+                {
+                    System.out.println("Error: Malformed expression; two operators next to each other!");
+                    res = false;
+                }
+                else if (splitExp[i].charAt(0) == '/' && splitExp[i+1].equals("0"))
+                {
+                    System.out.println("Error: Cannot divide by zero!");
+                    res = false;
+                }
+            else if (isOperand(splitExp[i].charAt(0)) ||
+                    (isOperator(splitExp[i].charAt(0)) && splitExp[i].length() != 1))
+                if (isOperand(splitExp[i+1].charAt(0)) ||
+                    (isOperator(splitExp[i+1].charAt(0)) && splitExp[i+1].length() != 1))
+                {
+                    System.out.println("Error: Malformed expression; two operands next to each other!");
+                    res = false;
+                }
+            else if (splitExp[i].length() == 1 &&
+                    (!isOperator(splitExp[i].charAt(0)) || !isOperand(splitExp[i].charAt(0))))
+                {
+                    System.out.println("Error: Invalid character!");
+                    res = false;
+                }
+        }
+
+        if (!checkParentheses(exp))
+        {
+            System.out.println("Error: Mismatched parentheses!");
+            res = false;
+        }
+        return res;
     }
 }
