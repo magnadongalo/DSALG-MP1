@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Driver {
@@ -6,6 +7,6 @@ public class Driver {
 
         System.out.println(Prefix.evaluatePrefix(Prefix.toPrefix("(10 - -20) * 30")));
 
-        Prefix.checkInfix("1 0 + 3");
+        System.out.println(Prefix.checkInfix("(12 / 0) + 12 3"));
     }
 }
