@@ -10,10 +10,12 @@ public class Prefix {
         Collections.fill(initial, "");
 
         // add the parser
-        Helper.parseArray(str, initial);
+        initial = Helper.parseArray(str, 1);
 
         // reverse the string array
-        Helper.reverseArray(initial);
+        // returns invalid input when something is wrong
+        if (initial != null) Helper.reverseArray(initial);
+        else return "Invalid Input";
 
         // queue needed
         // stack needed
@@ -88,15 +90,15 @@ public class Prefix {
         Collections.fill(initial, "");
 
         // add the parser
-        Helper.parseArray(str, initial);
+        initial = Helper.parseArray(str, 0);
 
         // reverse the string array
-        Helper.reverseArray(initial);
+        if (initial != null) Helper.reverseArray(initial);
+        else return "Invalid Input";
 
         // stack needed
-        // result string array needed
         CustomStack<String> tempStack = new CustomStack<>(100);
-        ArrayList<String> result = new ArrayList<>();
+        // ArrayList<String> result = new ArrayList<>();
 
         // Helper.reverseArray(result);
         // input 1st number into stack

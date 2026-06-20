@@ -21,7 +21,7 @@ public static void main(String[] args) {
 //
 //    System.out.println(list);
 
-    String input = "3 + 4 * (2^5 - 1)";
+    String input = "0 / 1";
     String input2 = "(1 + 2^3) + Minecraft * (4 - 5)";
 
     String input3 = "+ + 1 2 * 3 - 4 5";
@@ -31,7 +31,7 @@ public static void main(String[] args) {
 
     String prefixOutput3 = Prefix.convertToInfix(input3);
 
-//    System.out.println(prefixOutput);
-    System.out.println(prefixOutput2);
+    System.out.println(prefixOutput);
+//    System.out.println(prefixOutput2);
 //    System.out.println(prefixOutput3);
 }
