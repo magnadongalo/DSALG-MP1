@@ -1,12 +1,40 @@
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Driver {
     public static void main(String[] args) {
-        System.out.println(Prefix.toPrefix("(10 - -20) * 30"));
+        String input;
+        Scanner sc = new Scanner(System.in);
 
-        System.out.println(Prefix.evaluatePrefix(Prefix.toPrefix("(10 - -20) * 30")));
+        title();
+        sc.nextLine();
 
-        System.out.println(Prefix.checkInfix("(12 / 0) + 12 3"));
+        do{
+            System.out.println("Type in your infix expression!");
+            System.out.println("Make sure that operands and operators are separated by a space!");
+            System.out.println("Or input \"XXX\" to exit.\n");
+            System.out.print("Input here: ");
+
+            input = sc.nextLine();
+
+            if (!(input.equals("XXX") || input.equals("xxx")) && Prefix.checkInfix(input))
+            {
+                System.out.println("Prefix conversion: " + Prefix.toPrefix(input));
+                System.out.println("Answer: " + Prefix.evaluatePrefix(Prefix.toPrefix(input)));
+            }
+            System.out.println("____________________________________________________________\n\n");
+        } while (!(input.equals("XXX") || input.equals("xxx")));
+
+        System.out.println("Exiting program...");
+    }
+
+    public static void title() {
+        System.out.println("███ █   █ █████ ███ █   █            ████  ████  █████ █████ ███ █   █ ");
+        System.out.println(" █  ██  █ █      █   █ █             █   █ █   █ █     █      █   █ █  ");
+        System.out.println(" █  █ █ █ ████   █    █      ████    ████  ████  ████  ████   █    █   ");
+        System.out.println(" █  █  ██ █      █   █ █             █     █  █  █     █      █   █ █  ");
+        System.out.println("███ █   █ █     ███ █   █            █     █   █ █████ █     ███ █   █ \n");
+        System.out.println("                        ...and vice versa                              \n");
+        System.out.println("                     Press enter to continue...                        ");
+        System.out.println("_______________________________________________________________________");
     }
 }

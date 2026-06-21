@@ -15,6 +15,8 @@ public final class Prefix {
                 res = false;
             else if (!isOperand(s.charAt(i)) && i != 0)
                 res = false;
+            else if (s.length() == 1 && !isOperand(s.charAt(i)))
+                res = false;
         }
         return res;
     }
@@ -55,15 +57,14 @@ public final class Prefix {
             {
                 res.append(ch);
 
-                if (isOperator(exp.charAt(i-1)))
-                {
-                    res.append(exp.charAt(i-1));
-                    i--;
-                }
-
                 if (i > 0)
                     if (!isOperand(exp.charAt(i - 1)))
                         res.append(' ');
+                    else if (isOperator(exp.charAt(i-1)))
+                    {
+                        res.append(exp.charAt(i-1));
+                        i--;
+                    }
             }
             else if (ch == ')')
                 st.push(ch);
@@ -91,6 +92,9 @@ public final class Prefix {
                 st.push(ch);
             }
         }
+
+        if (res.charAt(res.length() - 1) != ' ')
+            res.append(' ');
 
         while (!st.isStackEmpty())
         {
@@ -146,7 +150,7 @@ public final class Prefix {
     public static boolean checkInfix (String exp){
         int i;
         String[] splitExp = exp.split(" ");
-        charStack par = new charStack(10);
+        charStack par = new charStack(10); //who puts 10 pairs of parentheses???
         boolean res = true;
 
         for (i=0; i<splitExp.length - 1; i++)
@@ -158,7 +162,10 @@ public final class Prefix {
             }
             else if (splitExp[i].contains(")"))
             {
-                par.pop();
+                if (!par.isStackEmpty())
+                    par.pop();
+                else
+                    par.push(splitExp[i].charAt(0));
                 splitExp[i].replace(")", "");
             }
 
@@ -179,7 +186,7 @@ public final class Prefix {
                     System.out.println("Syntax ERROR: Malformed expression; two operands next to each other!");
                     res = false;
                 }
-            else if (splitExp[i].length() == 1 && !isOperand(splitExp[i]) && !isOperator(splitExp[i].charAt(0)))
+            else if (splitExp[i].length() == 1 && !(isOperand(splitExp[i].charAt(0)) || isOperator(splitExp[i].charAt(0))))
                 {
                     System.out.println("Syntax ERROR: Invalid character!");
                     res = false;
