@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/29180571/README.md)
 ============================================================================================
 
 CCDSALG MCO1: Infix to Prefix Converter and Calculator
