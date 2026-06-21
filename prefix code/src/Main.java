@@ -1,4 +1,6 @@
-import java.util.*;
+/*
+sum random driver script for testing shit out
+ */
 
 public static void main(String[] args) {
 //    String input;
@@ -21,17 +23,26 @@ public static void main(String[] args) {
 //
 //    System.out.println(list);
 
-    String input = "0 / 1";
-    String input2 = "(1 + 2^3) + Minecraft * (4 - 5)";
+    String input = " 1 + 2 * 3 / 4 - 5 + 3 * 4 - 5";
+    String input2 = "(1 + 2^3) + Minecraft * (4 % 5)";
+    String input3 = "((5 + 3) * 2) ^ (1 + 1)";
 
-    String input3 = "+ + 1 2 * 3 - 4 5";
+    String input4 = "+ + 1 2 * 3 - 4 5";
+    String input5 = "/ + A B + C D";
+    String input6 = "+ * H * * * + A * - B C D F E G J";
 
     String prefixOutput = Prefix.convertToPrefix(input);
     String prefixOutput2 = Prefix.convertToPrefix(input2);
+    String prefixOutput3 = Prefix.convertToPrefix(input3);
 
-    String prefixOutput3 = Prefix.convertToInfix(input3);
+    String prefixOutput4 = Prefix.convertToInfix(input4);
+    String prefixOutput5 = Prefix.convertToInfix(input5);
+    String prefixOutput6 = Prefix.convertToInfix(input6);
 
     System.out.println(prefixOutput);
-//    System.out.println(prefixOutput2);
-//    System.out.println(prefixOutput3);
+    System.out.println(prefixOutput2);
+    System.out.println(prefixOutput3);
+    System.out.println(prefixOutput4);
+    System.out.println(prefixOutput5);
+    System.out.println(prefixOutput6);
 }

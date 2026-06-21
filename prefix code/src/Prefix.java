@@ -97,8 +97,9 @@ public class Prefix {
         else return "Invalid Input";
 
         // stack needed
+        // operator stack to track current operators
         CustomStack<String> tempStack = new CustomStack<>(100);
-        // ArrayList<String> result = new ArrayList<>();
+        CustomStack<String> operatorStack = new CustomStack<>(100);
 
         // Helper.reverseArray(result);
         // input 1st number into stack
@@ -118,21 +119,58 @@ public class Prefix {
             if (Helper.isOperand(temp))
             {
                 tempStack.push(temp);
+                // push none if scanned is not an operator
+                operatorStack.push("NONE");
             }
             else if (Helper.isOperator(temp))
             {
-                String right = tempStack.popItem();
                 String left = tempStack.popItem();
+                String right = tempStack.popItem();
 
+                // pop operators on both sides of expression then assign to string
+                String leftOperator = operatorStack.popItem();
+                String rightOperator = operatorStack.popItem();
+
+                // Check precedence of left main, and current operator
+                // if it's less than, add parenthesis
+                if (!leftOperator.equals("NONE") && Helper.checkPrecedence(leftOperator) < Helper.checkPrecedence(temp))
+                {
+                    left = "(" + left + ")";
+                }
+
+                // Check precedence of temp, and right main operator
+                // if it's less than, add parenthesis
+                if (!rightOperator.equals("NONE") && Helper.checkPrecedence(rightOperator) < Helper.checkPrecedence(temp))
+                {
+                    right = "(" + right + ")";
+                }
+
+                // Edge case
+                // Addition and multiplication are associative, minus and divide do not
+                // This handles it
+                if (!rightOperator.equals("NONE") && Helper.checkPrecedence(rightOperator) == Helper.checkPrecedence(temp))
+                {
+                    if (temp.equals("-") || temp.equals("/") || temp.equals("%"))
+                    {
+                        right = "(" + right + ")";
+                    }
+                }
+
+                // combine formatted expression
                 String expression = Helper.toExpression(left, right, temp);
-                tempStack.push(expression);
 
-                // unnecessary parenthesis checking here
+                tempStack.push(expression);
+                operatorStack.push(temp); // main operator
             }
         }
         // Repeat until end
 
-        // Return final string
-        return tempStack.popItem();
+        ArrayList<String> result = new ArrayList<>();
+        result = Helper.parseArray(tempStack.popItem(), 0);
+
+        if (result != null) Helper.reverseArray(result);
+        else return "Invalid Input";
+
+        return Helper.stringRebuilder(result, 1);
     }
 }
