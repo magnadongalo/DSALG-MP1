@@ -7,7 +7,7 @@ public class TestDrive {
 
         //temp = sc.nextLine();
 
-        System.out.println(Prefix.toPrefix("(1 + 3) * 12"));
-        System.out.println(Prefix.evaluatePrefix(Prefix.toPrefix("1 + 3")));
+        System.out.println(Prefix.toPrefix("- (1 + 3) * 12"));
+        System.out.println(Prefix.evaluatePrefix(Prefix.toPrefix("- (1 + 3) * 12")));
     }
 }

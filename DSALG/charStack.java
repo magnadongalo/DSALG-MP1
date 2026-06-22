@@ -25,8 +25,6 @@ public class charStack {
             this.maxSize = 10;
 
         this.size = 0;
-
-        //Arrays.fill(this.Stack, 0, this.maxSize, 0);
     }
 
     /**
@@ -61,8 +59,6 @@ public class charStack {
     public void push(char add) {
         this.Stack[this.size] = add;
         setSize(this.size + 1);
-
-        //System.out.println(add + " has been pushed into the stack!");
     }
 
     /**

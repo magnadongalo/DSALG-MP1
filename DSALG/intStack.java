@@ -61,8 +61,6 @@ public class intStack {
     public void push(int add) {
         this.Stack[this.size] = add;
         setSize(this.size + 1);
-
-        //System.out.println(add + " has been pushed into the stack!");
     }
 
     /**

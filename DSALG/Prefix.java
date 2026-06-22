@@ -26,6 +26,11 @@ public final class Prefix {
                 ch == '%' || ch == '^';
     }
 
+    public static boolean isOperator(String s){
+        return s.equals("+") || s.equals("-") || s.equals("*") ||
+                s.equals("/") || s.equals("%") || s.equals("^");
+    }
+
     public static int precedence(char ch)
     {
         return switch (ch) {
@@ -115,30 +120,30 @@ public final class Prefix {
 
         for (i = splitExp.length - 1; i >= 0; i--)
         {
-            if (isOperator(splitExp[i].charAt(0)) && splitExp[i].length() == 1)
+            if (isOperator(splitExp[i]))
             {
                 num1 = st.pop();
                 num2 = st.pop();
                 switch (splitExp[i].charAt(0))
                 {
-                case '+':
-                    st.push(num1 + num2);
-                    break;
-                case '-':
-                    st.push(num1 - num2);
-                    break;
-                case '*':
-                    st.push(num1 * num2);
-                    break;
-                case '/':
-                    st.push(num1 / num2);
-                    break;
-                case '%':
-                    st.push(num1 % num2);
-                    break;
-                case '^':
-                    st.push(num1 ^ num2);
-                    break;
+                    case '+':
+                        st.push(num1 + num2);
+                        break;
+                    case '-':
+                        st.push(num1 - num2);
+                        break;
+                    case '*':
+                        st.push(num1 * num2);
+                        break;
+                    case '/':
+                        st.push(num1 / num2);
+                        break;
+                    case '%':
+                        st.push(num1 % num2);
+                        break;
+                    case '^':
+                        st.push(num1 ^ num2);
+                        break;
                 }
             }
             else if (isOperand(splitExp[i]))
@@ -147,35 +152,64 @@ public final class Prefix {
         return st.stackTop();
     }
 
+    public static boolean checkParenthesis(String exp){
+        int i, res = 0;
+
+        for (i = 0; i < exp.length(); i++)
+        {
+            if (exp.charAt(i) == '(')
+                res++;
+            else if (exp.charAt(i) == ')')
+                res--;
+        }
+
+        return res == 0;
+    }
+
+    public static boolean isProperlySpaced(String exp){
+        int i, opCount = 0, spaceCount = 0;
+        boolean alternation = true;
+
+        for (i=0; i < exp.length() - 1; i++)
+        {
+            if (exp.charAt(i) == ' ')
+            {
+                spaceCount++;
+
+                if (exp.charAt(i+1) == ' ')
+                    alternation = false;
+            }
+            else if (isOperator(exp.charAt(i)) && !isOperand(exp.charAt(i+1)))
+            {
+                opCount++;
+
+                if (exp.charAt(i+1) != ' ')
+                    alternation = false;
+            }
+        }
+
+        if (spaceCount == 0)
+            alternation = false;
+
+        return spaceCount == 2*opCount && alternation;
+    }
+
     public static boolean checkInfix (String exp){
         int i;
         String[] splitExp = exp.split(" ");
-        charStack par = new charStack(10); //who puts 10 pairs of parentheses???
         boolean res = true;
+        boolean malformed = false;
 
         for (i=0; i<splitExp.length - 1; i++)
         {
-            if (splitExp[i].contains("("))
-            {
-                par.push(splitExp[i].charAt(0));
-                splitExp[i].replace("(", "");
-            }
-            else if (splitExp[i].contains(")"))
-            {
-                if (!par.isStackEmpty())
-                    par.pop();
-                else
-                    par.push(splitExp[i].charAt(0));
-                splitExp[i].replace(")", "");
-            }
-
-            if (isOperator(splitExp[i].charAt(0)) && splitExp[i].length() == 1)
-                if (isOperator(splitExp[i+1].charAt(0)) && splitExp[i+1].length() == 1)
+            if (isOperator(splitExp[i]) )
+                if (isOperator(splitExp[i+1]))
                 {
                     System.out.println("Syntax ERROR: Malformed expression; two operators next to each other!");
                     res = false;
+                    malformed = true;
                 }
-                else if (splitExp[i].charAt(0) == '/' && splitExp[i+1].equals("0"))
+                else if (splitExp[i].equals("/") && splitExp[i+1].equals("0"))
                 {
                     System.out.println("Math ERROR: Cannot divide by zero!");
                     res = false;
@@ -185,19 +219,27 @@ public final class Prefix {
                 {
                     System.out.println("Syntax ERROR: Malformed expression; two operands next to each other!");
                     res = false;
+                    malformed = true;
                 }
-            else if (splitExp[i].length() == 1 && !(isOperand(splitExp[i].charAt(0)) || isOperator(splitExp[i].charAt(0))))
-                {
-                    System.out.println("Syntax ERROR: Invalid character!");
-                    res = false;
-                }
+            else if (!(isOperand(splitExp[i]) || isOperator(splitExp[i])))
+            {
+                System.out.println("Syntax ERROR: Invalid character!");
+                res = false;
+            }
         }
 
-        if (!par.isStackEmpty())
+        if (!checkParenthesis(exp))
         {
             System.out.println("Syntax ERROR: Mismatched parentheses!");
             res = false;
         }
+
+        if (!isProperlySpaced(exp) && !malformed)
+        {
+            System.out.println("WARNING: Your expression is not properly spaced!");
+            res = false;
+        }
+
         return res;
     }
 }
