@@ -58,18 +58,17 @@ public final class Prefix {
         {
             ch = exp.charAt(i);
 
-            if (isOperand(ch))
+            if (isOperand(ch) || (ch == '-' && isOperand(exp.charAt(i+1))))
             {
                 res.append(ch);
 
                 if (i > 0)
-                    if (!isOperand(exp.charAt(i - 1)))
-                        res.append(' ');
-                    else if (isOperator(exp.charAt(i-1)))
+                {
+                    if (exp.charAt(i-1) == ' ')
                     {
-                        res.append(exp.charAt(i-1));
-                        i--;
+                        res.append(exp.charAt(--i));
                     }
+                }
             }
             else if (ch == ')')
                 st.push(ch);

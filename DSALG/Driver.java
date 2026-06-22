@@ -3,28 +3,69 @@ import java.util.Scanner;
 public class Driver {
     public static void main(String[] args) {
         String input;
+        char cInput;
         Scanner sc = new Scanner(System.in);
 
         title();
         sc.nextLine();
 
         do{
-            System.out.println("Type in your infix expression!");
-            System.out.println("Make sure that operands and operators are separated by a space!");
-            System.out.println("Or input \"XXX\" to exit.\n");
+            System.out.println("Select an option:");
+            System.out.println("<1> Infix to Prefix");
+            System.out.println("<2> Prefix to Infix");
+            System.out.println("<X> Exit Program");
             System.out.print("Input here: ");
+            cInput = sc.nextLine().charAt(0);
 
-            input = sc.nextLine();
-
-            if (!(input.equals("XXX") || input.equals("xxx")) && Prefix.checkInfix(input))
-            {
-                System.out.println("Prefix conversion: " + Prefix.toPrefix(input));
-                System.out.println("Answer: " + Prefix.evaluatePrefix(Prefix.toPrefix(input)));
-            }
             System.out.println("____________________________________________________________\n\n");
-        } while (!(input.equals("XXX") || input.equals("xxx")));
 
-        System.out.println("Exiting program...");
+            switch (cInput)
+            {
+            case '1':
+                do{
+                    System.out.println("Type in your infix expression!");
+                    System.out.println("Make sure that operands and operators are separated by a space!");
+                    System.out.println("Or input \"XXX\" to exit the mode.\n");
+                    System.out.print("Input here: ");
+
+                    input = sc.nextLine();
+
+                    if (!(input.equals("XXX") || input.equals("xxx")) && Prefix.checkInfix(input))
+                    {
+                        System.out.println("Prefix conversion: " + Prefix.toPrefix(input));
+                        System.out.println("Answer: " + Prefix.evaluatePrefix(Prefix.toPrefix(input)));
+                    }
+                    System.out.println("____________________________________________________________\n\n");
+                } while (!(input.equals("XXX") || input.equals("xxx")));
+
+                break;
+            case '2':
+                /*do{
+                    System.out.println("Type in your prefix expression!");
+                    System.out.println("Make sure that operands and operators are separated by a space!");
+                    System.out.println("Or input \"XXX\" to exit the mode.\n");
+                    System.out.print("Input here: ");
+
+                    input = sc.nextLine();
+
+                    if (!(input.equals("XXX") || input.equals("xxx")) && Prefix.checkInfix(input))
+                    {
+                        System.out.println("Prefix conversion: " + Prefix.toPrefix(input));
+                        System.out.println("Answer: " + Prefix.evaluatePrefix(Prefix.toPrefix(input)));
+                    }
+                    System.out.println("____________________________________________________________\n\n");
+                } while (!(input.equals("XXX") || input.equals("xxx")));*/
+
+                break;
+            case 'X':
+            case 'x':
+                System.out.println("Exiting program...");
+                break;
+            default:
+                System.out.println("Invalid input!");
+            }
+
+        } while (cInput != 'X' && cInput != 'x');
     }
 
     public static void title() {
