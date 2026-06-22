@@ -165,7 +165,7 @@ public class Prefix {
         }
         // Repeat until end
 
-        ArrayList<String> result = new ArrayList<>();
+        ArrayList<String> result;
         result = Helper.parseArray(tempStack.popItem(), 0);
 
         if (result != null) Helper.reverseArray(result);

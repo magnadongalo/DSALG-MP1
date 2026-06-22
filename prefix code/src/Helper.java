@@ -31,73 +31,51 @@ public class Helper {
      */
     public static ArrayList<String> parseArray(String str, int parsingType)
     {
-        // use regex to add each element in str up until
-        // it recognized a space, or a symbol into arraylist initial
-
         int i = 0;
         int errorCode = 0;
-
         int parenCache = 0;
-        // boolean frontCache =  false;
         boolean valid = true;
-
-        char previous = 0;
         char invalid = 0;
-
         ArrayList<String> initial = new ArrayList<>();
+        boolean expectOperator = false;
 
         while (i < str.length() && valid)
         {
             char c = str.charAt(i);
 
             if (Character.isWhitespace(c))
-                i++;
-
-            else if (c == '(')
             {
-                // parenthesis catching mismatch
-
-                // logic goes that if the cache is not zero by the end, either it's an unclosed parenthesis or an early ')'
-                parenCache++;
-
-                initial.add(String.valueOf(c));
                 i++;
             }
-
+            else if (c == '(')
+            {
+                parenCache++;
+                initial.add(String.valueOf(c));
+                i++;
+                expectOperator = false; // operand or another '(' next
+            }
             else if (c == ')')
             {
                 parenCache--;
-
-                // parenthesis catching mismatch
                 if (parenCache < 0)
                 {
                     errorCode = 2;
                     valid = false;
                 }
-
                 initial.add(String.valueOf(c));
                 i++;
+                expectOperator = true; // operator or another ')' next
             }
-
+            // Digit Parsing (Handles positive/negative numbers)
             else if (Character.isDigit(c) ||
-                    ((c == '-' || c == '+')
-                            && i + 1 < str.length()
-                            && Character.isDigit(str.charAt(i + 1))))
+                    ((c == '-' || c == '+') && i + 1 < str.length() && Character.isDigit(str.charAt(i + 1))))
             {
                 StringBuilder builder = new StringBuilder();
 
-                if (c == '-')
-                {
+                if (c == '-') {
                     builder.append('-');
                     i++;
-                }
-                else if (c == '+')
-                {
-                    i++;
-                }
-
-                else if (c == '0' && i < str.length() - 1)
-                {
+                } else if (c == '+') {
                     i++;
                 }
 
@@ -107,34 +85,31 @@ public class Helper {
                     i++;
                 }
 
-                // Zero divisibility
-                // previous only gets affected when parsing operators
-                // straightforward zero checking when previous is '/'
-                // make sure this checks only when its type 1 (infix to prefix parsing)
-                if (builder.toString().equals("0") && parsingType == 1)
+                String numStr = builder.toString();
+
+                // Zero division check for type 1
+                if (numStr.equals("0") && parsingType == 1)
                 {
-                    errorCode = 3;
-                    valid = false;
+                    if (!initial.isEmpty() && initial.getLast().equals("/"))
+                    {
+                        errorCode = 3;
+                        valid = false;
+                    }
                 }
-                initial.add(builder.toString());
 
-                previous = c;
+                initial.add(numStr);
+                expectOperator = true; // operator should follow
             }
-
-            else if(Character.isLetter(c) ||
-                    ((c == '-' || c == '+')
-                            && i + 1 < str.length()
-                            && Character.isLetter(str.charAt(i + 1))))
+            // Variable/Letter Parsing
+            else if (Character.isLetter(c) ||
+                    ((c == '-' || c == '+') && i + 1 < str.length() && Character.isLetter(str.charAt(i + 1))))
             {
                 StringBuilder builder = new StringBuilder();
 
-                if (c == '-')
-                {
+                if (c == '-') {
                     builder.append('-');
                     i++;
-                }
-                else if (c == '+')
-                {
+                } else if (c == '+') {
                     i++;
                 }
 
@@ -143,33 +118,30 @@ public class Helper {
                     builder.append(str.charAt(i));
                     i++;
                 }
+
                 initial.add(builder.toString());
-
-                previous = c;
+                expectOperator = true; // operator should follow
             }
-
+            // Operator Parsing
             else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '%')
             {
-                // malformed expressions
-                if (isMalformed(previous) && parsingType == 1)
+                // Malformed expression check using the boolean state
+                if (!expectOperator && parsingType == 1)
                 {
                     errorCode = 4;
                     invalid = c;
-
                     valid = false;
                 }
 
                 initial.add(String.valueOf(c));
                 i++;
-
-                previous = c;
+                expectOperator = false; // operand should follow
             }
-            else // is this like invalid characters
+            else
             {
                 errorCode = 5;
                 invalid = c;
                 valid = false;
-
                 i++;
             }
         }
@@ -180,24 +152,19 @@ public class Helper {
             valid = false;
         }
 
-        // returns null if valid is false
-        // checking is hard coded into this solution
         if (valid) return initial;
         else
         {
-            // Error Message
             System.out.println("error code: " + errorCode);
             String codeDescription = switch (errorCode) {
                 case 1 -> "MismatchedInput: One or more '(' instances were left unclosed.";
                 case 2 -> "MismatchedInput: You are trying to input a ')' while a '(' instance is not present.";
                 case 3 -> "ZeroNonDivisible: Cannot divide by 0.";
-                case 4 -> "MalformedExpression: operand '" + invalid + "' found after '" + previous + "', which is invalid.";
+                case 4 -> "MalformedExpression: Consecutive operator '" + invalid + "' found where an operand was expected.";
                 case 5 -> "InvalidInput: '" + invalid + "' is an invalid symbol and cannot be parsed.";
                 default -> "";
             };
             System.out.println(codeDescription);
-
-            // Return nothing. Guard clause exists in convertToInfix
             return null;
         }
     }
