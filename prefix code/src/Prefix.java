@@ -197,7 +197,7 @@ public class Prefix {
         ArrayList<String> initial = new ArrayList<>();
         Collections.fill(initial, "");
 
-        initial = Helper.parseArray(str, 0);
+        initial = Helper.parseArray(str, 1);
 
         boolean letterBound = Helper.isLetter(str);
 

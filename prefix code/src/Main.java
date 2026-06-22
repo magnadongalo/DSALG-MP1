@@ -55,6 +55,11 @@ public class Main {
 //        System.out.println(fahh);
 //        System.out.println(fahh2);
 
+//        String infix = "+ - * 5 2";
+//
+//        String eval = Prefix.convertToPrefix(infix);
+//        System.out.println(eval);
+
         String infix = "+ - * 5 2";
         int eval = Prefix.evaluate(infix);
 

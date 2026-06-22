@@ -153,7 +153,9 @@ public class Helper {
             valid = false;
         }
 
-        if (valid) return initial;
+        ArrayList<String> finalResult = new ArrayList<>();
+
+        if (valid) finalResult = initial;
         else
         {
             System.out.println("error code: " + errorCode);
@@ -166,8 +168,10 @@ public class Helper {
                 default -> "";
             };
             System.out.println(codeDescription);
-            return null;
+            finalResult = null;
         }
+
+        return finalResult;
     }
 
     // reverse function
