@@ -176,6 +176,11 @@ public class Helper {
 
     // reverse function
     // Doomscrolling lead me to this reverse solution
+
+    /**
+     * reverseArray reverses the order of an inputted String ArrayList
+     * @param array String ArrayList to reverse
+     */
     public static void reverseArray(ArrayList<String> array)
     {
         int left = 0;
@@ -198,6 +203,10 @@ public class Helper {
         switchParenthesis(array);
     }
 
+    /**
+     * switchParenthesis locates all open and close parenthesis and switches them for correct reverse formatting
+     * @param array String ArrayList to switch parenthesis
+     */
     public static void switchParenthesis(ArrayList<String> array)
     {
         int i = 0;
@@ -215,6 +224,11 @@ public class Helper {
         }
     }
 
+    /**
+     * isOperand checks if an inputted string is an operand of an expression
+     * @param str the string to check
+     * @return true if str is operand, false if otherwise
+     */
     public static boolean isOperand(String str) {
         boolean result = false;
 
@@ -227,6 +241,11 @@ public class Helper {
         return result;
     }
 
+    /**
+     * isLetter checks if an inputted string is a letter
+     * @param str the string to check
+     * @return true if str is a letter, false if otherwise
+     */
     public static boolean isLetter(String str) {
         boolean result = false;
 
@@ -239,6 +258,11 @@ public class Helper {
         return result;
     }
 
+    /**
+     * isOperator checks if an inputted string is an operator (symbol) [+, -, *, /, %, ^] of an expression
+     * @param str the string to check
+     * @return true if str is an operator, false if otherwise
+     */
     public static boolean isOperator(String str) {
         boolean result = false;
 
@@ -253,6 +277,12 @@ public class Helper {
         return result;
     }
 
+    /**
+     * stringRebuilder builds a string based on the elements of a String ArrayList
+     * @param array the String ArrayList to build a string out of
+     * @param type 1 or more if building an infix statement, 0 or less if building a prefix statement
+     * @return complete string with spaces (formatting)
+     */
     public static String stringRebuilder(ArrayList<String> array, int type)
     {
         StringBuilder stringBuilder = new StringBuilder();
@@ -275,6 +305,11 @@ public class Helper {
         return stringBuilder.toString().trim();
     }
 
+    /**
+     * checkPrecedence returns an int representing the precedence of an operand
+     * @param str the operand to be determined a precedence
+     * @return precedence value
+     */
     public static int checkPrecedence(String str)
     {
         return switch (str) {
@@ -286,26 +321,26 @@ public class Helper {
         };
     }
 
+    /**
+     * toExpression takes in a left string, a right string, and an operand string to build an expression
+     * @param str1 right value of the expression
+     * @param str2 left value of the expression
+     * @param symbol the operand to be placed in between
+     * @return String of the combined expression
+     */
     public static String toExpression(String str1, String str2, String symbol)
     {
         return str2 + " " + symbol + " " + str1;
     }
 
-//    public static boolean checkExpression(String str1, String str2, String symbol)
-//    {
-//        return !str2.equals("0") || !symbol.equals("/");
-//    }
-//
-//    public static boolean isMalformed(char compare)
-//    {
-//        return compare == '+' ||
-//                compare == '-' ||
-//                compare == '*' ||
-//                compare == '/' ||
-//                compare == '%' ||
-//                compare == '^';
-//    }
-
+    /**
+     * calculateStuff contains generic math computations recognizing a left and right of an expression, calculated by
+     * an operand string
+     * @param left left side of an expression
+     * @param right right side of an expression
+     * @param symbol the operand to be used for computing result
+     * @return calculated result
+     */
     public static String calculateStuff(int left, int right, String symbol)
     {
         int result = switch (symbol) {

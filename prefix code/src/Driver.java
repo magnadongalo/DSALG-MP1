@@ -38,5 +38,3 @@ public class Driver {
         System.out.println("_______________________________________________________________________");
     }
 }
-
-//  && Prefix.checkInfix(input)

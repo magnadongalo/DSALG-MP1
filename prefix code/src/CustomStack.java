@@ -20,6 +20,13 @@ public class CustomStack<T> {
     private final ArrayList<T> stack = new ArrayList<>();
     private final int capacity;
 
+    /**
+     * This function creates an array to act as the stack data structure.
+     * Serves as the CreateStack function of this class.
+     * In an event where the parameter maxSize is left null, or set to less than 0, the queue size defaults to 10.
+     * @param maxSize specified size of the stack array data type.
+     *                It defaults to 10 if it is left null, or set to less than 0
+     */
     public CustomStack(Integer maxSize)
     {
         if (maxSize == null || maxSize <= 0)

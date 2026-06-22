@@ -3,6 +3,11 @@ import java.util.Collections;
 
 public class Prefix {
 
+    /**
+     * convertToPrefix converts an inputted infix expression into an prefix expression
+     * @param str the infix expression to be converted
+     * @return String converted prefix expression
+     */
     public static String convertToPrefix(String str)
     {
         // initial string array needed
@@ -93,6 +98,11 @@ public class Prefix {
         return finalResult;
     }
 
+    /**
+     * convertToInfix converts an inputted prefix expression into an infix expression
+     * @param str the prefix expression to be converted
+     * @return String converted infix expression
+     */
     public static String convertToInfix(String str)
     {
         // initial string array needed
@@ -192,12 +202,17 @@ public class Prefix {
         return finalResult;
     }
 
+    /**
+     * evaluate evaluates the result of a prefix expression
+     * @param str the prefix expression to be evaluated
+     * @return int - result of evaluation
+     */
     public static int evaluate(String str)
     {
         ArrayList<String> initial = new ArrayList<>();
         Collections.fill(initial, "");
 
-        initial = Helper.parseArray(str, 1);
+        initial = Helper.parseArray(str, 0);
 
         boolean letterBound = Helper.isLetter(str);
 
@@ -217,11 +232,21 @@ public class Prefix {
                 if (Helper.isOperand(temp)) {
                     tempStack.push(temp);
                 }
-                else if (Helper.isOperator(temp)) {
-                    int left = Integer.parseInt(tempStack.popItem());
-                    int right = Integer.parseInt(tempStack.popItem());
+                else if (Helper.isOperator(temp))
+                {
+                    // singular unary operator handling
+                    if (temp.equals("-") && i == initial.size() - 1)
+                    {
+                        String left = "-" + tempStack.popItem();
+                        tempStack.push(left);
+                    }
+                    else
+                    {
+                        int left = Integer.parseInt(tempStack.popItem());
+                        int right = Integer.parseInt(tempStack.popItem());
 
-                    tempStack.push(Helper.calculateStuff(left, right, temp));
+                        tempStack.push(Helper.calculateStuff(left, right, temp));
+                    }
                 }
             }
 
