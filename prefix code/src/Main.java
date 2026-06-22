@@ -60,8 +60,8 @@ public class Main {
 //        String eval = Prefix.convertToPrefix(infix);
 //        System.out.println(eval);
 
-        String prefix = "- + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1";
-        int eval = Prefix.evaluate(prefix);
+        String prefix = "1 / (-2 + 2)";
+        int eval = Prefix.evaluate(Prefix.convertToPrefix(prefix));
 
         System.out.println(eval);
     }

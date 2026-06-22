@@ -215,6 +215,7 @@ public class Prefix {
         initial = Helper.parseArray(str, 0);
 
         boolean letterBound = Helper.isLetter(str);
+        boolean zeroInvalid = false;
 
         int finalResult = 0;
 
@@ -245,18 +246,30 @@ public class Prefix {
                         int left = Integer.parseInt(tempStack.popItem());
                         int right = Integer.parseInt(tempStack.popItem());
 
-                        tempStack.push(Helper.calculateStuff(left, right, temp));
+                        if (right == 0 && (temp.equals("/") || temp.equals("%")))
+                        {
+                            zeroInvalid = true;
+                        }
+                        else
+                        {
+                            tempStack.push(Helper.calculateStuff(left, right, temp));
+                        }
                     }
                 }
             }
 
-            finalResult = Integer.parseInt(tempStack.popItem());
+            if (!zeroInvalid) finalResult = Integer.parseInt(tempStack.popItem());
         }
 
         if (letterBound)
         {
             System.out.println("LetterCalculationException: Non-integer operands cannot be calculated.");
             finalResult = 33550336;
+        }
+        if (zeroInvalid)
+        {
+            System.out.println("ZeroNonDivisible: Cannot divide by 0.");
+            finalResult = 67;
         }
 
         return finalResult;
