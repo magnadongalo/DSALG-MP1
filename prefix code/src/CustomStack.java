@@ -44,13 +44,18 @@ public class CustomStack<T> {
      */
     public T top()
     {
+        T result = null;
+
         if (isEmpty())
         {
             System.out.println("Stack is empty");
-            return null;
+        }
+        else
+        {
+            result = stack.getLast();
         }
 
-        return (T) stack.getLast();
+        return result;
     }
 
     /**
@@ -60,13 +65,18 @@ public class CustomStack<T> {
      */
     public T popItem()
     {
+        T result = null;
+
         if (isEmpty())
         {
             System.out.println("Stack is empty");
-            return null;
+        }
+        else
+        {
+            result = stack.removeLast();
         }
 
-        return stack.removeLast();
+        return result;
     }
 
     /**
@@ -77,10 +87,8 @@ public class CustomStack<T> {
         if (isEmpty())
         {
             System.out.println("Stack is empty");
-            return;
         }
-
-        stack.removeLast();
+        else stack.removeLast();
     }
 
     /**
@@ -92,10 +100,11 @@ public class CustomStack<T> {
         if (isFull())
         {
             System.out.println("Stack is full");
-            return;
         }
-
-        this.stack.add(item);
+        else
+        {
+            stack.add(item);
+        }
     }
 
     /**

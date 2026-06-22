@@ -66,6 +66,7 @@ public class Helper {
                 i++;
                 expectOperator = true; // operator or another ')' next
             }
+
             // Digit Parsing (Handles positive/negative numbers)
             else if (Character.isDigit(c) ||
                     ((c == '-' || c == '+') && i + 1 < str.length() && Character.isDigit(str.charAt(i + 1))))
@@ -126,7 +127,7 @@ public class Helper {
             else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '%')
             {
                 // Malformed expression check using the boolean state
-                if (!expectOperator && parsingType == 1)
+                if (parsingType == 1 && !expectOperator)
                 {
                     errorCode = 4;
                     invalid = c;
@@ -211,12 +212,41 @@ public class Helper {
     }
 
     public static boolean isOperand(String str) {
-        if (str == null || str.isEmpty())
-        {
-            return false;
+        boolean result = false;
+
+        if (str != null && !str.isEmpty()) {
+            if (str.matches("(-?\\d+(\\.\\d+)?|[a-zA-Z]+)"))
+            {
+                result = true;
+            }
+        }
+        return result;
+    }
+
+    public static boolean isLetter(String str) {
+        boolean result = false;
+
+        if (str != null && !str.isEmpty()) {
+            if (str.matches(".*[a-zA-Z].*")) {
+                result = true;
+            }
         }
 
-        return str.matches("(-?\\d+(\\.\\d+)?|[a-zA-Z]+)");
+        return result;
+    }
+
+    public static boolean isOperator(String str) {
+        boolean result = false;
+
+        if (str != null && !str.isEmpty())
+        {
+            if (str.matches("^[()+\\-*/^%\\s]+$"))
+            {
+                result = true;
+            }
+        }
+
+        return result;
     }
 
     public static String stringRebuilder(ArrayList<String> array, int type)
@@ -257,27 +287,33 @@ public class Helper {
         return str2 + " " + symbol + " " + str1;
     }
 
-    public static boolean checkExpression(String str1, String str2, String symbol)
+//    public static boolean checkExpression(String str1, String str2, String symbol)
+//    {
+//        return !str2.equals("0") || !symbol.equals("/");
+//    }
+//
+//    public static boolean isMalformed(char compare)
+//    {
+//        return compare == '+' ||
+//                compare == '-' ||
+//                compare == '*' ||
+//                compare == '/' ||
+//                compare == '%' ||
+//                compare == '^';
+//    }
+
+    public static String calculateStuff(int left, int right, String symbol)
     {
-        return !str2.equals("0") || !symbol.equals("/");
-    }
+        int result = switch (symbol) {
+            case "+" -> left + right;
+            case "-" -> left - right;
+            case "*" -> left * right;
+            case "/" -> left / right;
+            case "%" -> left % right;
+            case "^" -> (int) Math.pow(left, right);
+            default -> 0;
+        };
 
-    public static boolean isMalformed(char compare)
-    {
-        return compare == '+' ||
-                compare == '-' ||
-                compare == '*' ||
-                compare == '/' ||
-                compare == '%' ||
-                compare == '^';
-    }
-
-    public static boolean isOperator(String str) {
-        if (str == null || str.isEmpty())
-        {
-            return false;
-        }
-
-        return str.matches("^[()+\\-*/^%\\s]+$");
+        return String.valueOf(result);
     }
 }

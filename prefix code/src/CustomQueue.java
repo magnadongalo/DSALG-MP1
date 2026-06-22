@@ -99,13 +99,18 @@ public class CustomQueue<T> {
      */
     public T head()
     {
+        T result = null;
+
         if (isEmpty())
         {
             System.out.println("Queue is empty");
-            return null;
+        }
+        else
+        {
+            result = queue.getFirst();
         }
 
-        return (T) queue.getFirst();
+        return result;
     }
 
     /**
@@ -115,13 +120,18 @@ public class CustomQueue<T> {
      */
     public T tail()
     {
+        T result = null;
+
         if (isEmpty())
         {
             System.out.println("Queue is empty");
-            return null;
+        }
+        else
+        {
+            result = queue.getLast();
         }
 
-        return (T) queue.getLast();
+        return result;
     }
 
     /**
