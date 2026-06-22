@@ -228,37 +228,43 @@ public class Prefix {
             int i;
             for (i = 0; i < initial.size(); i++)
             {
-                String temp = initial.get(i);
-
-                if (Helper.isOperand(temp)) {
-                    tempStack.push(temp);
-                }
-                else if (Helper.isOperator(temp))
+                if (!zeroInvalid)
                 {
-                    // singular unary operator handling
-                    if (temp.equals("-") && i == initial.size() - 1)
-                    {
-                        String left = "-" + tempStack.popItem();
-                        tempStack.push(left);
-                    }
-                    else
-                    {
-                        int left = Integer.parseInt(tempStack.popItem());
-                        int right = Integer.parseInt(tempStack.popItem());
+                    String temp = initial.get(i);
 
-                        if (right == 0 && (temp.equals("/") || temp.equals("%")))
+                    if (Helper.isOperand(temp)) {
+                        tempStack.push(temp);
+                    }
+                    else if (Helper.isOperator(temp))
+                    {
+                        // singular unary operator handling
+                        if (temp.equals("-") && i == initial.size() - 1)
                         {
-                            zeroInvalid = true;
+                            String left = "-" + tempStack.popItem();
+                            tempStack.push(left);
                         }
                         else
                         {
-                            tempStack.push(Helper.calculateStuff(left, right, temp));
+                            int right = Integer.parseInt(tempStack.popItem());
+                            int left = Integer.parseInt(tempStack.popItem());
+
+                            if (left == 0 && (temp.equals("/") || temp.equals("%")))
+                            {
+                                zeroInvalid = true;
+                            }
+                            else
+                            {
+                                tempStack.push(Helper.calculateStuff(left, right, temp));
+                            }
                         }
                     }
                 }
             }
 
-            if (!zeroInvalid) finalResult = Integer.parseInt(tempStack.popItem());
+            if (!zeroInvalid)
+            {
+                finalResult = Integer.parseInt(tempStack.popItem());
+            }
         }
 
         if (letterBound)
