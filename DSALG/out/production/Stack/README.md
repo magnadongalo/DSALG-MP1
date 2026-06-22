@@ -34,7 +34,7 @@ typing the infix expression.
 
 &#x09;\* e.g. (1 + 2) - 3
 
-\- Make sure the inputted expression is a valid mathematical expression. 
+\- Make sure the inputted expression is a valid mathematical expression.
 
 &#x09;\* Make sure parentheses are paired properly
 
@@ -51,6 +51,16 @@ typing the infix expression.
 &#x09;\* Valid: -1028
 
 &#x09;\* Invalid: ---2006
+
+\- The unary '-' operator only works with respect to grouped expressions at the BEGINNING of
+
+&#x20; the expression. It must be separated by a space, however.
+
+&#x09;\* Valid: - (1 + 2)
+
+&#x09;\* Invalid: 4 + - (1 + 2)
+
+&#x09;	\* Correct: 4 - (1 + 2)
 
 
 
